@@ -11,6 +11,7 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 
 import com.ruanally.server.factory.MessageCoderFactory;
+import com.ruanally.server.handler.ClientMessgeHandler;
 
 
 /**
@@ -45,14 +46,14 @@ public class ServerSocketAcceptor {
 	public void start() throws IOException{
 		//实例化管理类
 		IoAcceptor acceptor = new NioSocketAcceptor(); 
-		// 设置过滤器,选用Mina自带的过滤器一行一行读取代码  
-        acceptor.getFilterChain().addLast("baseChain", new ProtocolCodecFilter(new MessageCoderFactory(this.charset)));  
+		// 设置过滤器
+        acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new MessageCoderFactory(this.charset)));  
         // 设置读取数据的缓冲区大小   
         acceptor.getSessionConfig().setReadBufferSize(2048);  
-        // 读写通道10秒内无操作进入空闲状态   
+        // 读写通道60秒内无操作进入空闲状态   
         acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE,60);  
         // 绑定逻辑处理器  
-       // acceptor.setHandler(new PushServiceHandler());  
+        acceptor.setHandler(new ClientMessgeHandler());  
         // 绑定端口,启动服务器  
         acceptor.bind(new InetSocketAddress(this.port));  
         //打印日志
