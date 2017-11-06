@@ -9,6 +9,8 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoder;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 
+import com.ruanally.data.MessageDataPackage;
+
 /**
  * 消息编码器
  * 
@@ -27,8 +29,8 @@ public class MessageEcoder implements ProtocolEncoder {
 	@Override
 	public void encode(IoSession ioSession, Object message, ProtocolEncoderOutput out) throws Exception {
 		IoBuffer ioBuffer = IoBuffer.allocate(100).setAutoExpand(true);
-		String msg = (String) message;
-		byte[] bytes = msg.getBytes();
+		MessageDataPackage mdp = (MessageDataPackage) message;
+		byte[] bytes = null;//mdp.getBytes();
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(buf);
 		byte[] heads = buf.toByteArray();

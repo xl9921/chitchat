@@ -5,6 +5,7 @@ import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 
+import com.ruanally.data.MessageDataPackage;
 import com.ruanally.server.session.SessionManager;
 
 /**
@@ -32,7 +33,10 @@ public class ClientMessgeHandler  extends IoHandlerAdapter{
 
 	@Override
 	public void sessionCreated(IoSession session) throws Exception {
-		log.info("客户端建立连接");
+		MessageDataPackage mdp=new MessageDataPackage();
+		mdp.setId(session.getId()+"");
+		mdp.setData("你好，你的ID为："+session.getId());
+		session.write(mdp);
 	}
 
 	@Override

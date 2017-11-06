@@ -19,6 +19,7 @@ public class MainClass {
 		try {
 			ServerSocketAcceptor ssa=new ServerSocketAcceptor();
 			ssa.start();
+			while(true){}
 		} catch (Exception e) {
 			log.error(ExceptionUtils.getStackTrace(e));
 		}
